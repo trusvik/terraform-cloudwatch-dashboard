@@ -37,7 +37,10 @@ tfenv use 1.3.3
 terraform --version
 ```
 
+
 ## Bruk Terraform til å lage et CloudWatch DashBoard 
+
+* Klon dette repoet til Cloud9 miljøet ditt. 
 
 Se i katalogen "infra" - her finner dere filen *dashboard.tf* som inneholder Terraformkode for et CloudWatch Dashboard.
 
@@ -79,7 +82,7 @@ DASHBOARD
 Skriv en *provider.tf* i samme katalog som dashboard.tf - og kjør terraform plan / apply fra Cloud 9 miljøet ditt
 Se at Det blir opprettet et Dashboard
 
-* Kjør Terraform plan / apply from Cloud9-miljøet ditt
+* Kjør Terraform  init / plan / apply from Cloud9-miljøet ditt
 
 ## Se på Spring Boot appen 
 

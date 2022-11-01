@@ -1,5 +1,5 @@
 resource "aws_cloudwatch_dashboard" "main" {
-  dashboard_name = "TheBank"
+  dashboard_name = var.student_name
   dashboard_body = <<DASHBOARD
 {
   "widgets": [
@@ -12,7 +12,7 @@ resource "aws_cloudwatch_dashboard" "main" {
       "properties": {
         "metrics": [
           [
-            "glennbech",
+            "${var.student_name}",
             "account_count.value"
           ]
         ],

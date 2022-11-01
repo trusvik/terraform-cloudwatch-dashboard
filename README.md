@@ -163,6 +163,8 @@ curl --location --request POST 'http://localhost:8080/account/2/transfer/3' \
 
 ## Sjekk at det kommer data i CloudWatch- Dashbordet 
 
+Det skal se omtrent slik ut 
+
 ![Alt text](img/dashboard.png  "a title")
 
 * Går til AWS UI, og tjenesten CloudWatch. Velg "Dashboards".

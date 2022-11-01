@@ -111,6 +111,14 @@ Du må endre på klassen *MetricsConfig* og bruke ditt egent studentnavn istedet
     };
 ````
 
+Installer maven i Cloud 9. Vi skal forsøke å kjøre Spring Boot applikasjonen fra Maven i terminalen
+
+```
+sudo wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
+sudo sed -i s/\$releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
+sudo yum install -y apache-maven
+```
+
 ## Start Sprint Boot applikasjonen 
 
 Start applikasjonen med Cloud 9'
@@ -152,15 +160,18 @@ curl --location --request POST 'http://localhost:8080/account/2/transfer/3' \
 '
 ```
 
-## Sjekk at det kommer data i CloudWatc- Dashbordet 
+## Sjekk at det kommer data i CloudWatch- Dashbordet 
 
 * Går til AWS UI, og tjenesten CloudWatch. Velg "Dashboards".
-* Søk på ditt eget studentnavn og åpne dashboardet du lagde 
+* Søk på ditt eget studentnavn og åpne dashboardet du lagde
+* Se at du får målepunkter på grafen
 
-## Legg til Fler Metrics i Dashboardet ditt 
+## Oppgaver
 
+* Legg til fler Metrics i koden og Dashboardet ditt
 * Kan du lage et nytt endepunkt med ny funksjonalitet? 
 * Kan du lage en Gauge som returnerer hvor mye penger som totalt er i banken?
+* Kan du lage en GitHub Actions pipeline for terraformkoden / Javakoden? 
 * Bruk gjerne følgende guide som inspirasjon https://www.baeldung.com/micrometer
 * Referanseimplementasjon; https://micrometer.io/docs/concepts
 

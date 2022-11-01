@@ -1,7 +1,8 @@
 # Metrics med Spring Boot og CloudWatch & Terraform
 
 I denne øvingen skal dere bli ennå bedre kjent med hvordan man instrumenterer en Spring Boot applikasjon med Metrics. 
-Vi skal også se på hvordan vi kan visualisere Metrics i AWS CloudWatch, og hvordan vi kan bruke terraform til å lage et dashboard
+Vi skal også se på hvordan vi kan visualisere Metrics i AWS CloudWatch, og hvordan vi kan bruke terraform til å lage 
+et dashboard.
 
 ## Vi skal gjøre denne øvingen fra Cloud 9 
 
@@ -11,15 +12,15 @@ Logg på Cloud 9 miljøet ditt som vanlig
 
 Istedet for å bruke terraform installasjonen som kommer med Cloud9, kan vi bruke "tfenv" - et verktøy som lar oss laste ned 
 og bruke ulike Terraform versjoner. Dette er veldig nyttig å kunne siden dere kanskje skal jobbe i et miljø med flere ulike 
-Terraform prosjekter som bruker ulik Terrafsorm versjon. 
+prosjekter- eller team som bruker ulike Terrafsorm versjoner. 
 
-```sh
+```sh   
 git clone https://github.com/tfutils/tfenv.git ~/.tfenv
 echo 'export PATH="$HOME/.tfenv/bin:$PATH"' >> ~/.bash_profile
 sudo ln -s ~/.tfenv/bin/* /usr/local/bin
 ```
 
-For å se hvilke Terraform versjoner i kan velge fra 
+For å se hvilke Terraform versjoner i kan velge fra -  
 
 ```sh
 tfenv list-remote
@@ -33,6 +34,7 @@ Vi ser at terraform 1.3.3 er lastet ned for oss. Vi kan så gjøre
 
 ```sh
 tfenv use 1.3.3
+terraform --version
 ```
 
 ## Bruk Terraform til å lage et CloudWatch DashBoard 

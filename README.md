@@ -1,8 +1,7 @@
-# Metrics med Spring Boot og CloudWatch 
+# Metrics med Spring Boot og CloudWatch & Terraform
 
 I denne øvingen skal dere bli ennå bedre kjent med hvordan man instrumenterer en Spring Boot applikasjon med Metrics. 
 Vi skal også se på hvordan vi kan visualisere Metrics i AWS CloudWatch, og hvordan vi kan bruke terraform til å lage et dashboard
-Koden i dette repoet eksponerer et undepunkt på http://localhost:8080/account 
 
 ## Vi skal gjøre denne øvingen fra Cloud 9 
 
@@ -12,7 +11,7 @@ Logg på Cloud 9 miljøet ditt som vanlig
 
 Istedet for å bruke terraform installasjonen som kommer med Cloud9, kan vi bruke "tfenv" - et verktøy som lar oss laste ned 
 og bruke ulike Terraform versjoner. Dette er veldig nyttig å kunne siden dere kanskje skal jobbe i et miljø med flere ulike 
-Terraform prosjekter som bruker ulik Terraform versjon. 
+Terraform prosjekter som bruker ulik Terrafsorm versjon. 
 
 ```sh
 git clone https://github.com/tfutils/tfenv.git ~/.tfenv
@@ -73,11 +72,12 @@ resource "aws_cloudwatch_dashboard" "main" {
 DASHBOARD
 }
 ```
-
 ## TODO 
 
 Skriv en *provider.tf* i samme katalog som dashboard.tf - og kjør terraform plan / apply fra Cloud 9 miljøet ditt
 Se at Det blir opprettet et Dashboard
+
+* Kjør Terraform plan / apply from Cloud9-miljøet ditt
 
 ## Se på Spring Boot appen 
 
@@ -108,13 +108,14 @@ Du må endre på klassen *MetricsConfig* og bruke ditt egent studentnavn istedet
 
 ## Start Sprint Boot applikasjonen 
 
-Start applikasjonen fra terminal, eller fra IntelliJ/IDE
+Start applikasjonen med Cloud 9'
 ```
 mvn spring-boot:run
 ```
 
+Koden i dette repoet eksponerer et REST grensesnitt på http://localhost:8080/account
 
-## Kall APIet fra en Terminal I Cloud 9 
+## Kall APIet fra en terminal I Cloud 9 
 
 * Opprette konto, eller dette saldo
 
@@ -144,20 +145,17 @@ curl --location --request POST 'http://localhost:8080/account/2/transfer/3' \
     "amount" : 500
 }
 '
-
-
 ```
 
-## Sjekk at det kommer data i CloudWatch
+## Sjekk at det kommer data i CloudWatc- Dashbordet 
 
-Gjør invokasjoner mot de ulike endepunktene, og se at grafen i Dashboardet blir oppdatert
-
-* Åpne AWS UI, og tjenesten CloudWatch. Velg "Dashboards".
-* Søk på ditt eget studentnavn 
+* Går til AWS UI, og tjenesten CloudWatch. Velg "Dashboards".
+* Søk på ditt eget studentnavn og åpne dashboardet du lagde 
 
 ## Legg til Fler Metrics i Dashboardet ditt 
 
 * Kan du lage et nytt endepunkt med ny funksjonalitet? 
+* Kan du lage en Gauge som returnerer hvor mye penger som totalt er i banken?
 * Bruk gjerne følgende guide som inspirasjon https://www.baeldung.com/micrometer
 * Referanseimplementasjon; https://micrometer.io/docs/concepts
 

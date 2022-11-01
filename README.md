@@ -117,6 +117,7 @@ Installer maven i Cloud 9. Vi skal forsøke å kjøre Spring Boot applikasjonen 
 sudo wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
 sudo sed -i s/\$releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
 sudo yum install -y apache-maven
+sudo yum install jq
 ```
 
 ## Start Sprint Boot applikasjonen 
@@ -138,13 +139,13 @@ curl --location --request POST 'http://localhost:8080/account' \
 --data-raw '{
     "id": 1,
     "balance" : "100000"
-}'
+}'|jq
 ```
 
 * Se info om en konto
 ```sh 
   curl --location --request GET 'http://localhost:8080/account/1' \
-  --header 'Content-Type: application/json'
+  --header 'Content-Type: application/json'|jq
 ```
 
 * Overføre penger fra en konto til en annen
@@ -157,7 +158,7 @@ curl --location --request POST 'http://localhost:8080/account/2/transfer/3' \
     "toCountry" : "US",
     "amount" : 500
 }
-'
+'|jq
 ```
 
 ## Sjekk at det kommer data i CloudWatch- Dashbordet 

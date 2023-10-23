@@ -1,8 +1,12 @@
 # Metrics med Spring Boot og CloudWatch & Terraform
 
-I denne øvingen skal dere bli ennå bedre kjent med hvordan man instrumenterer en Spring Boot applikasjon med Metrics. 
+I denne øvingen skal dere bli kjent med hvordan man instrumenterer en Spring Boot applikasjon med Metrics. 
 Vi skal også se på hvordan vi kan visualisere Metrics i AWS CloudWatch, og hvordan vi kan bruke terraform til å lage 
 et dashboard.
+
+Applikasjonen som ligger i dette repositoriet er en eksempel bank-applikasjon som, ser hør- og bør, er veldig ustabil 
+(med vilje). 
+
 
 ## Vi skal gjøre denne øvingen fra Cloud 9 
 
@@ -120,7 +124,7 @@ sudo yum install -y apache-maven
 sudo yum install jq
 ```
 
-## Start Sprint Boot applikasjonen 
+## Start Spring Boot applikasjonen 
 
 Start applikasjonen med Cloud 9'
 ```

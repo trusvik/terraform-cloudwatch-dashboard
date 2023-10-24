@@ -42,6 +42,14 @@ terraform --version
 ```
 
 
+## Installer JQ
+
+jq er et fint verktøy for å vise JSON på en mer brukervennlig måte 
+
+```
+sudo yum install jq
+```
+
 ## Bruk Terraform til å lage et CloudWatch DashBoard 
 
 * Klon dette repoet til Cloud9 miljøet ditt. 

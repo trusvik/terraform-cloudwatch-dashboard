@@ -4,8 +4,8 @@ I denne øvingen skal dere bli kjent med hvordan man instrumenterer en Spring Bo
 Vi skal også se på hvordan vi kan visualisere Metrics i AWS CloudWatch, og hvordan vi kan bruke terraform til å lage 
 et dashboard.
 
-Applikasjonen som ligger i dette repositoriet er en eksempel bank-applikasjon som, ser hør- og bør, er veldig ustabil 
-(med vilje). 
+Applikasjonen som ligger i dette repositoriet er en eksempel bank-applikasjon som vi har sett tidligere. 
+
 
 
 ## Vi skal gjøre denne øvingen fra Cloud 9 

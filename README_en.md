@@ -262,7 +262,9 @@ We will also use the service SNS, Simple Notification Service. By sending a mess
 
 ## Create Terraform Module
 We will now create a Terraform module. While we work on it, it's smart to keep it on a local filesystem so we do not need to do git add/commit/push etc., to update the code.
-Create a new folder under infra/ called alarm_module  In this folder, create a new Terraform file named main.tf
+
+1. Create a new folder under infra/ called _alarm_module_  
+2. In this folder, create a new Terraform file named main.tf
 
 Take not of the fact that we're following best practices, and adding a prefix that we'll use in naming resources. This way, more than one 
 instance of this module can be used in same AWS Envrionment
@@ -377,7 +379,7 @@ variable "alarm_email" {
     type = string
 }
 ```
-Because we do not want to hardcode email, or any specific values in our Terraform code.
+Because we do not want to hardcode email, or any specific values in our Terraform code. Feel free to set your own email address as the default value for this variable 
 
 # Run the Terraform Code from Cloud9
 

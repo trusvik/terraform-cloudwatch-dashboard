@@ -152,7 +152,7 @@ sudo yum install jq
 ## Start Spring Boot applikasjonen 
 
 
-_from the root folder_ in your terminal. Start the Spring boot app with maven with
+From the folder where you cloned repository for this exercise; Start the Spring boot app with maven with
 ```
 mvn spring-boot:run
 ```

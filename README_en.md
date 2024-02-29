@@ -1,10 +1,9 @@
-# Metrics med Spring Boot og CloudWatch & Terraform
+# Business Metrics with Spring Boot og CloudWatch & Terraform
 
-
-In this exercise, you will become familiar with how to instrument a Spring Boot application with Metrics. 
-We will also look at how we can visualize Metrics in AWS CloudWatch, and how we can use Terraform to create a dashboard.
-
-The application in this repository is an "mock" bank application
+The application in this repository is a "mock" bank application that features various endpoints for common banking transactions.
+In this exercise, you will learn how to instrument a Spring Boot application with business metrics. By business metrics, we refer to metrics that do not pertain to the technical performance of the application, but rather to insights into user behavior, such as the amount of money transferred and the number of transactions performed.
+This exercise utilizes Java, Spring Boot, and a metrics framework called Micrometer.
+We will also explore how to visualize metrics in AWS CloudWatch and how to use Terraform to create a dashboard.
 
 # Prepare your Cloud 9 environment
 
@@ -64,7 +63,7 @@ sudo yum install jq
 
 ## Use Terraform to Create a CloudWatch Dashboard
 
-* Clone this repo into your Cloud9 environment.
+* Clone this repo into your Cloud9 environment (Remember to clone with the HTTP URL)
 * Look in the "infra" directory - here you will find the file dashboard.tf which contains Terraform code for a CloudWatch Dashboard.
 * As you can see, the dashboard is described in a JSON format. Here you can find documentation https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dashboard-Body-Structure.html
 Here you also see how one often includes text or code using "Heredoc" syntax in Terraform code, so that we don't have to worry about "newline", "Escaping" of special characters, etc. (https://developer.hashicorp.com/terraform/language/expressions/strings)
@@ -101,7 +100,10 @@ DEATHSTAR
 ```
 ## Task 
 
-* Run terraform plan / apply from your Cloud 9 environment See that a Dashboard is created in CloudWatch
+* Run terraform init / plan / apply from your Cloud 9 environment See that a Dashboard is created in CloudWatch
+* you have to type in a student name, why?
+* Can you think of at least two ways to fix it so that you don't have to type a student name on plan/apply/destroy?
+
 
 ## Look at the Spring Boot application
 
@@ -120,12 +122,12 @@ counting the size of the values in the map holding the accounts.
 
 ## Modify the MetricsConfig Class
 
-You need to modify the MetricsConfig class and use your own name instead of glennbech in the code block
+You need to modify the MetricsConfig class and use your own name for the cloudwatch namespace
 
 ````java
  return new CloudWatchConfig() {
         private Map<String, String> configuration = Map.of(
-                "cloudwatch.namespace", "glennbech",
+                "cloudwatch.namespace", "",
                 "cloudwatch.step", Duration.ofSeconds(5).toString());
         
         ....
@@ -143,18 +145,44 @@ sudo yum install jq
 
 ## Start Spring Boot applikasjonen 
 
-Start the Spring boot app with maven 
+
+_from the root folder_ in your terminal. Start the Spring boot app with maven with
 ```
 mvn spring-boot:run
 ```
 
 The code in this repository exposes a REST interface at http://localhost:8080/account
 
-## Use curl to test the API from cloud 9
+## Test the API
 
-curl is a command-line tool used to transfer data to or from a server, supporting a wide range of protocols 
-including HTTP, HTTPS, FTP, and more. It is widely used for testing, sending 
-requests, and interacting with APIs directly from the terminal or in scripts.
+Curl is a command-line tool used to transfer data to or from a server, supporting a wide range of protocols 
+including HTTP, HTTPS, FTP, and more. It is widely used for testing, sending  requests, and interacting with APIs directly 
+from the terminal or in scripts.
+
+If you don't feel like using curl, but would prefer postman or something and run the tests from your local computer; follow these instructions 
+
+Find the Security group (A kind of firewall) protecting your Cloud 9 machine 
+
+```shell
+ aws ec2 describe-instances --instance-ids $(curl -s http://169.254.169.254/latest/meta-data/instance-id) --query 'Reservations[*].Instances[*].SecurityGroups[*].GroupId' --output text
+```
+Open traffic from everywhere on port  8080
+
+```shell
+aws ec2 authorize-security-group-ingress --group-id <YOUR SECURITY GROUP ID>  --protocol tcp --port 8080 --cidr 0.0.0.0/0
+```
+
+Find the IP address of your computer
+
+```shell
+ curl -s http://169.254.169.254/latest/meta-data/public-ipv4
+```
+
+You can then use for example postman to access your API 
+
+![](img/postman.png)
+
+
 
 ### Operations 
 
@@ -169,8 +197,8 @@ curl --location --request POST 'http://localhost:8080/account' \
 }'|jq
 ```
 
-* See information about an account 
-* 
+* See information about an account
+
 ```sh 
   curl --location --request GET 'http://localhost:8080/account/1' \
   --header 'Content-Type: application/json'|jq
@@ -199,7 +227,7 @@ It should look something like this:
 
 ![Alt text](img/dashboard.png  "a title")
 
-## Oppgaver
+## Tasks
 
 * Add more Metrics to your code and dashboard.
 * Can you create a new endpoint with new functionality?

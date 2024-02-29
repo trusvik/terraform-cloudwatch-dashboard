@@ -9,6 +9,11 @@ We will also explore how to visualize metrics in AWS CloudWatch and how to use T
 
 Log in to your Cloud 9 environment as usual
 
+*Important. If you get error messages related to no more diskspace in your cloud 9 environment
+you can follow these instructions*
+https://github.com/glennbechdevops/cloud9_tools
+
+
 ## Terraform pro tip 
 
 Instead of using the Terraform installation that comes with Cloud9, we can use "tfenv" - a tool that 
@@ -183,7 +188,7 @@ You can then use for example postman to access your API
 ![](img/postman.png)
 
 
-### Operations 
+### Cloud 9 1337 option 
 
 Create an account with an id and balance
 ```sh
@@ -224,7 +229,6 @@ curl --location --request POST 'http://localhost:8080/account/2/transfer/3' \
 It should look something like this:
 
 ![Alt text](img/dashboard.png  "a title")
-
 
 # PART 2
 

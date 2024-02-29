@@ -9,10 +9,11 @@ We will also explore how to visualize metrics in AWS CloudWatch and how to use T
 
 Log in to your Cloud 9 environment as usual
 
-*Important. If you get error messages related to no more diskspace in your cloud 9 environment
-you can follow these instructions*
+*Important. When you use both Java- and Terraform in the same lab, you might run out of disk space on your Cloud 9 instance.* It is recomended to go through the instructions 
+in this document in the beginning of the lab to increase the disk size. 
 https://github.com/glennbechdevops/cloud9_tools
 
+It takes 10-20 minutes to actually increase the size available to the instance so it's better to do this up front. 
 
 ## Terraform pro tip 
 

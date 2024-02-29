@@ -189,7 +189,9 @@ You can then use for example postman to access your API
 ![](img/postman.png)
 
 
-### Cloud 9 1337 option 
+### Use Curl instead
+
+If you feel like just using the Cloud 9 terminal to test the API curl is your friend
 
 Create an account with an id and balance
 ```sh

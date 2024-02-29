@@ -6,10 +6,9 @@ We will also look at how we can visualize Metrics in AWS CloudWatch, and how we 
 
 The application in this repository is an "mock" bank application
 
-## We will do this exercise from Cloud 9
+# Prepare your Cloud 9 environment
 
 Log in to your Cloud 9 environment as usual
-
 
 ## Terraform pro tip 
 
@@ -29,10 +28,10 @@ To see what versions are available
 tfenv list-remote
 ```
 
-Let's pick 1.7.4 which is pretty recent
+Let's pick 1.7.4 which is pretty recent - use will also install if the version is not downloaded on your computer.
 
 ```sh
-tfenv install 1.7.4
+tfenv use 1.7.4
 ```
 
 Set up terraform to use this version 
@@ -49,6 +48,17 @@ Check that it worked!
 Jq is a great tool to work with JSON from the command line 
 
 ```
+sudo yum install jq
+```
+
+## Install maven 
+
+Install Maven in Cloud 9. We will try to run the Spring Boot application from Maven in the terminal.
+
+```
+sudo wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
+sudo sed -i s/\$releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
+sudo yum install -y apache-maven
 sudo yum install jq
 ```
 

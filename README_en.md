@@ -183,16 +183,14 @@ You can then use for example postman to access your API
 ![](img/postman.png)
 
 
-
 ### Operations 
 
-Create an account with an id and balance 
-
+Create an account with an id and balance
 ```sh
 curl --location --request POST 'http://localhost:8080/account' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "id": 1,
+    "id": 3,
     "balance" : "100000"
 }'|jq
 ```
@@ -204,7 +202,7 @@ curl --location --request POST 'http://localhost:8080/account' \
   --header 'Content-Type: application/json'|jq
 ```
 
-* Transfer money from one account to another 
+* Transfer money from one account to another  (It will create accounts if they do not exist)
 
 ```sh
 curl --location --request POST 'http://localhost:8080/account/2/transfer/3' \
@@ -227,14 +225,195 @@ It should look something like this:
 
 ![Alt text](img/dashboard.png  "a title")
 
-## Tasks
 
-* Add more Metrics to your code and dashboard.
-* Can you create a new endpoint with new functionality?
-* Can you create a Gauge that returns the total amount of money in the bank?
-* Feel free to use the following guide for inspiration https://www.baeldung.com/micrometer
-* Reference implementation; https://micrometer.io/docs/concepts
-* Useful links; 
+# PART 2
 
-- https://spring.io/blog/2018/03/16/micrometer-spring-boot-2-s-new-application-metrics-collector
-- https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready-metrics
+## Gauge for the Bank's Total Sum
+You are now going to create a Micrometer Gauge that displays the net balance of the bank. Place it in the correct location in the code.
+
+```shell
+// This meter type "Gauge" reports the total amount of money in the bank
+Gauge.builder("bank_sum", theBank,
+                b -> b.values()
+                        .stream()
+                        .map(Account::getBalance)
+                        .mapToDouble(BigDecimal::doubleValue)
+                        .sum())
+        .register(meterRegistry);
+```
+
+
+
+## Create a New Widget in the CloudWatch Dashboard
+Extend the Terraform code so that it displays an additional widget for the metric bank_sum.
+Hint: you will need to change the X/Y values so they do not overlap!
+
+## Cloudwatch Alarm
+We will create an Alarm that is triggered if the total sum of the bank exceeds a given amount.
+
+This can be done using CloudWatch. We will also create a module for this alarm, so others can benefit from it.
+
+We will also use the service SNS, Simple Notification Service. By sending a message to an SNS topic when the alarm is triggered, we can respond to such a message, for example, by sending an email, running a lambda function, etc.
+
+## Create Terraform Module
+We will now create a Terraform module. While we work on it, it's smart to keep it on a local filesystem so we do not need to do git add/commit/push etc., to update the code.
+Create a new folder under infra/ called alarm_module  In this folder, create a new Terraform file named main.tf
+
+Take not of the fact that we're following best practices, and adding a prefix that we'll use in naming resources. This way, more than one 
+instance of this module can be used in same AWS Envrionment
+
+```shell
+resource "aws_cloudwatch_metric_alarm" "threshold" {
+  alarm_name  = "${var.prefix}-threshold"
+  namespace   = var.prefix
+  metric_name = "bank_sum.value"
+
+  comparison_operator = "GreaterThanThreshold"
+  threshold           = var.threshold
+  evaluation_periods  = "2"
+  period              = "60"
+  statistic           = "Maximum"
+
+  alarm_description = "This alarm goes off as soon as the total amount of money in the bank exceeds an amount."
+  alarm_actions     = [aws_sns_topic.user_updates.arn]
+}
+
+resource "aws_sns_topic" "user_updates" {
+  name = "${var.prefix}-alarm-topic"
+}
+
+resource "aws_sns_topic_subscription" "user_updates_sqs_target" {
+  topic_arn = aws_sns_topic.user_updates.arn
+  protocol  = "email"
+  endpoint  = var.alarm_email
+}
+
+```
+
+### A Little Explanation About the aws_cloudwatch_metric_alarm Resource
+
+- **Namespace** is typically your student name. It's the same value that you changed in the MetricsConfig.java file.
+- There are a wide range of `comparison_operator` options to choose from!
+- `evaluation_periods` and `period` work together to avoid the alarm being triggered by short-term "spikes" or outlier observations.
+- `statistic` is an operation that is performed on all values within a time interval given by `period` - for a `Gauge` metric, in this case, we choose Maximum.
+- Notice how one `resource` refers to another in Terraform!
+- Terraform creates both an SNS Topic and an email subscription.
+
+## Create a new file in the same directory, `variables.tf`
+
+```shell
+
+variable "threshold" {
+  default = "50"
+  type = string
+}
+
+variable "alarm_email" {
+  type = string
+}
+
+variable "prefix" {
+  type = string
+}
+
+```
+
+## Create a new file in the same directory, outputs.tf
+
+```
+output "alarm_arn" {
+  value = aws_sns_topic.user_updates.arn
+}
+```
+
+You can now modify main.tf in the /infra directory to include your module. It will then look like this:
+
+```shell
+resource "aws_cloudwatch_dashboard" "main" {
+  dashboard_name = var.student_name
+  dashboard_body = <<DASHBOARD
+{
+  "widgets": [
+    {
+      "type": "metric",
+      "x": 0,
+      "y": 0,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "metrics": [
+          [
+            "${var.student_name}",
+            "account_count.value"
+          ]
+        ],
+        "period": 300,
+        "stat": "Maximum",
+        "region": "eu-west-1",
+        "title": "Total number of accounts"
+      }
+    }
+  ]
+}
+DASHBOARD
+}
+
+module "alarm" {
+  source = "./alarm_module"
+  alarm_email = var.alarm_email
+  prefix = var.student_name
+}
+
+```
+
+## Finally, you must change variables.tf in the /infra folder, and add the variable. 
+```hcl
+variable "alarm_email" {
+    type = string
+}
+```
+Because we do not want to hardcode email, or any specific values in our Terraform code.
+
+# Run the Terraform Code from Cloud9
+
+## Go to the infra directory. Run:
+
+```shell
+terraform init
+terraform apply
+
+```
+
+Note that Terraform asks you for values for variables that do not have default values. This will not work when we want GitHub Actions to run Terraform for us. Do you remember how you can give these arguments on the command line? You can also create default values for the variables if you wish - as long as you understand how this works.
+
+## Confirm Email
+
+For SNS to be allowed to send you emails, you must confirm your email address. You will receive an email with a link you must click the first time you run terraform apply.
+
+## Manually Test the Alarm and Email Sending Using SNS
+* Go to the AWS console
+* Go to SNS
+* From the left menu, select "Topics"
+* Find your own Topic
+* Test sending an email by pressing "Publish message" at the top right of the page
+
+## Trigger the Alarm!
+
+Try to create new accounts, or a new account, so that the bank's total sum exceeds 1 MNOK.
+
+```shell
+curl --location --request POST 'http://localhost:8080/account' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 999,
+    "balance" : "5000000"
+}'|jq
+
+```
+
+- Check that the alarm goes off by seeing that you have received an email.
+- Go to CloudWatch Alarms in AWS and see that the alarm's state is `IN_ALARM`.
+- Get the bank's balance back to 0, for example by creating an account with a negative balance.
+- See that the alarm's state moves away from `IN_ALARM`.
+
+DONE!

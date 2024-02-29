@@ -167,12 +167,12 @@ from the terminal or in scripts.
 
 If you don't feel like using curl, but would prefer postman or something and run the tests from your local computer; follow these instructions 
 
-Find the Security group (A kind of firewall) protecting your Cloud 9 machine 
+Find the Security group (A kind of firewall) protecting your Cloud 9 machine. 
 
 ```shell
  aws ec2 describe-instances --instance-ids $(curl -s http://169.254.169.254/latest/meta-data/instance-id) --query 'Reservations[*].Instances[*].SecurityGroups[*].GroupId' --output text
 ```
-Open traffic from everywhere on port  8080
+Open traffic from everywhere on port  8080.  <YOUR SECURITY GROUP ID> is the output form the previous command
 
 ```shell
 aws ec2 authorize-security-group-ingress --group-id <YOUR SECURITY GROUP ID>  --protocol tcp --port 8080 --cidr 0.0.0.0/0

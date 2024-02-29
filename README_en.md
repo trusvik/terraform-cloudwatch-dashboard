@@ -128,7 +128,7 @@ counting the size of the values in the map holding the accounts.
 
 ## Modify the MetricsConfig Class
 
-You need to modify the MetricsConfig class and use your own name for the cloudwatch namespace
+You need to modify the MetricsConfig class and use your own name for the cloudwatch namespace, replace the empty string "" with your student name.  
 
 ````java
  return new CloudWatchConfig() {

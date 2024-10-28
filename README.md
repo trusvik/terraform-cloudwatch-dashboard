@@ -56,17 +56,6 @@ Jq is a great tool to work with JSON from the command line
 sudo yum install jq
 ```
 
-## Install maven 
-
-Install Maven in Cloud 9. We will try to run the Spring Boot application from Maven in the terminal.
-
-```
-sudo wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
-sudo sed -i s/\$releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
-sudo yum install -y apache-maven
-sudo yum install jq
-```
-
 ## Use Terraform to Create a CloudWatch Dashboard
 
 * Clone this repo into your Cloud9 environment (Remember to clone with the HTTP URL)
@@ -106,10 +95,10 @@ DEATHSTAR
 ```
 ## Task 
 
-* Run terraform init / plan / apply from your Cloud 9 environment See that a Dashboard is created in CloudWatch
+* Run terraform init / plan / apply from your Cloud 9 environment.
 * you have to type in a student name, why?
 * Can you think of at least two ways to fix it so that you don't have to type a student name on plan/apply/destroy?
-
+* Navigate to the AWS Cloudwatch service, See that a Dashboard is created in CloudWatch
 
 ## Look at the Spring Boot application
 
@@ -146,10 +135,10 @@ Install Maven in Cloud 9. We will try to run the Spring Boot application from Ma
 sudo wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
 sudo sed -i s/\$releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
 sudo yum install -y apache-maven
-sudo yum install jq
+
 ```
 
-## Start Spring Boot applikasjonen 
+## Start the Spring Boot application
 
 
 From the folder where you cloned repository for this exercise; Start the Spring boot app with maven with
@@ -184,7 +173,17 @@ Find the IP address of your computer
  curl -s http://169.254.169.254/latest/meta-data/public-ipv4
 ```
 
-You can then use for example postman to access your API 
+You can then use for example postman to access your API - or even curl again from your mac or windows machine 
+(example with teacher IP address)
+
+```
+ curl --location --request POST 'http://54.246.38.229:8080/account' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 3,
+    "balance" : "100000"
+}'|jq
+```
 
 ![](img/postman.png)
 

@@ -159,7 +159,7 @@ mvn spring-boot:run
 
 The code in this repository exposes a REST interface at http://localhost:8080/account
 
-## Test the API
+## Test the API (Advanced option)
 
 Curl is a command-line tool used to transfer data to or from a server, supporting a wide range of protocols 
 including HTTP, HTTPS, FTP, and more. It is widely used for testing, sending  requests, and interacting with APIs directly 
@@ -189,7 +189,7 @@ You can then use for example postman to access your API
 ![](img/postman.png)
 
 
-### Use Curl instead
+### Use Curl instead (Chicken option)
 
 If you feel like just using the Cloud 9 terminal to test the API curl is your friend
 

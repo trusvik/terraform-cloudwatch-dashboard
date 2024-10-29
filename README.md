@@ -227,6 +227,7 @@ curl --location --request POST 'http://localhost:8080/account/2/transfer/3' \
 * Go to the AWS UI, and select the CloudWatch service. Choose "Dashboards".
 * Search for your own student name and open the dashboard you created.
 * See that you get data points on the graph.
+* You might need to wait a bit, or change the interval to 1 minute on the graph (Click the : settings icon upper right)
 
 It should look something like this:
 

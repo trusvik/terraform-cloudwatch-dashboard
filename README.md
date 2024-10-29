@@ -243,6 +243,12 @@ It should look something like this:
 * Explore the different metrics delivered by MicroMeter by default, it's 100+ !
 
 
+## Create github actions workflow
+
+* Based on code in a previous lab, make a GitHub actions workflow that builds and deploys the infrastructure code on every push to main
+* Make sure that only plan is done on non-main branches or pull request events
+
+
 # PART 2
 
 ## Gauge for the Bank's Total Sum

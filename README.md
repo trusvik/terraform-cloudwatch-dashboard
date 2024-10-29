@@ -233,6 +233,16 @@ It should look something like this:
 
 ![Alt text](img/dashboard.png  "a title")
 
+## Check CloudWatch metrics, and your custom name space
+
+* Go to CloudWatch, and chose the menu item "metrics" 
+* Under Cuusom name spaces you will see your student name
+
+![image](https://github.com/user-attachments/assets/d4752c9d-52a1-4a7c-ac8a-34ee0ae3cfc8)
+
+* Explore the different metrics delivered by MicroMeter by default, it's 100+ !
+
+
 # PART 2
 
 ## Gauge for the Bank's Total Sum

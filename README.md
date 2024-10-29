@@ -248,6 +248,10 @@ It should look something like this:
 * Based on code in a previous lab, make a GitHub actions workflow that builds and deploys the infrastructure code on every push to main
 * Make sure that only plan is done on non-main branches or pull request events
 
+##  GitHub actions workflow for containerized App Runner application
+
+* By now, you should be ble to package the Spring app in this repo to an ECR repository, and add infrastructure code to run it as an AWS Apprunner application.
+    
 
 # PART 2
 
